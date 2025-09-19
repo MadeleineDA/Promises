@@ -1,0 +1,105 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-image: url(imag/descarga\ \(35\).jpeg);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('imag/descarga (35).jpeg');
+  background-size: cover;
+  background-position: center;
+  filter: blur(6px); /* Ajusta la intensidad del desenfoque */
+  z-index: -1;        /* Para que quede detrás del contenido */
+}
+
+
+/* Caja principal */
+.container {
+  background: rgba(18, 18, 18, 0.9);
+  position: relative;
+   z-index: 1;
+  padding: 30px;
+  border-radius: 24px;
+  width: 450px;
+  box-shadow: none;
+  color: #fff;
+  text-align: center;
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Título */
+h2 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Botón */
+#startBtn {
+  padding: 12px 20px;
+  background: #8d7748ea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.3s;
+}
+
+#startBtn:hover {
+  background: #8d7748ea;
+  transform: scale(1.05);
+}
+
+/* Lista de mensajes */
+#log {
+  list-style: none;
+  margin: 20px 0 0 0;
+  padding: 0;
+  text-align: left;
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+#log li {
+  background: #1e1e1e;
+  margin: 8px 0;
+  padding: 12px 15px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  line-height: 1.4rem;
+  border-left: 4px solid #8d7748ea;
+  animation: slideIn 0.4s ease-in-out;
+}
+
+/* Scroll más estético */
+#log::-webkit-scrollbar {
+  width: 8px;
+}
+#log::-webkit-scrollbar-thumb {
+  background: #e7bb5c;
+  border-radius: 6px;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
