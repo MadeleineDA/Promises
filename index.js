@@ -30,23 +30,24 @@
   // Función principal
   async function procesarOrden() {
     mostrarMensaje("📋 Orden recibida: Bebida, Pizza y Postre");
-
-    // Probabilidad de fallo de toda la orden (70%)
+    try{
+      // Probabilidad de fallo de toda la orden (70%)
     if (Math.random() < 0.7) {
-      mostrarMensaje("❌ Ha ocurrido un problema y toda la orden no pudo completarse.");
-      return; // termina la función
+      throw new Error("❌ Ha ocurrido un problema y toda la orden no pudo completarse."); // termina la función
     }
 
     // Si no falla, se preparan los platillos secuencialmente
-    try {
+    
       await prepararPlatillo("Bebida");
       await prepararPlatillo("Pizza");
       await prepararPlatillo("Postre");
 
       mostrarMensaje("🎉 La orden completa ha sido entregada.");
-    } catch (error) {
+    }
+    
+     catch (error) {
       // Esto es solo por si ocurre algún error inesperado
-      mostrarMensaje("❌ Error inesperado: " + error.message);
+      mostrarMensaje( error.message);
     }
   }
 
