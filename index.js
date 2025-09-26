@@ -1,52 +1,56 @@
-// Función para imprimir en pantalla
-function mostrarMensaje(mensaje) {
-  const log = document.getElementById("log");
-  const item = document.createElement("li");
-  item.textContent = mensaje;
-  log.appendChild(item);
-  log.scrollTop = log.scrollHeight;
-}
+ //funcion para mostrar mensajes en el log
+ function mostrarMensaje(mensaje) {
+    const log = document.getElementById("log");
+    const li = document.createElement("li");
+    li.textContent = mensaje;
+    log.appendChild(li);
+    console.log(mensaje);
+    log.scrollTop = log.scrollHeight;
+  }
 
-// Función para preparar un platillo (con espera extra después de entregar)
-function prepararPlatillo(platillo, tiempoPreparacion) {
-  return new Promise((resolve) => {
-    mostrarMensaje(`Comenzando a preparar: ${platillo}`);
+  
+  function esperar(milisegundo) {
+    return new Promise(resolve => setTimeout(resolve, milisegundo));
+  }
 
-    setTimeout(() => {
-      mostrarMensaje(`${platillo} lista!`);
+  // Función para preparar un platillo con sus etapas
+  async function prepararPlatillo(nombre) {
+    mostrarMensaje(`Iniciando preparación: ${nombre}`);
+    await esperar(2000);
 
-      setTimeout(() => {
-        mostrarMensaje(`${platillo} entregando orden 🍽️...`);
+    mostrarMensaje(`✅ ${nombre} listo`);
+    await esperar(1000);
 
-        setTimeout(() => {
-          mostrarMensaje(`${platillo} entregado ✅`);
+    mostrarMensaje(`🚚 Entregando ${nombre}...`);
+    await esperar(2000);
 
-          // 🔹 Espera 1 seg ANTES de pasar al siguiente
-          setTimeout(() => {
-            resolve(); // ahora sí continúa con el próximo
-          }, 1000);
+    mostrarMensaje(`🍽️ ${nombre} entregado`);
+  }
 
-        }, 1000); // tiempo de "entregado"
+  // Función principal
+  async function procesarOrden() {
+    mostrarMensaje("📋 Orden recibida: Bebida, Pizza y Postre");
 
-      }, 1000); // tiempo de "entregando"
+    // Probabilidad de fallo de toda la orden (70%)
+    if (Math.random() < 0.7) {
+      mostrarMensaje("❌ Ha ocurrido un problema y toda la orden no pudo completarse.");
+      return; // termina la función
+    }
 
-    }, tiempoPreparacion); // tiempo de preparación
+    // Si no falla, se preparan los platillos secuencialmente
+    try {
+      await prepararPlatillo("Bebida");
+      await prepararPlatillo("Pizza");
+      await prepararPlatillo("Postre");
+
+      mostrarMensaje("🎉 La orden completa ha sido entregada.");
+    } catch (error) {
+      // Esto es solo por si ocurre algún error inesperado
+      mostrarMensaje("❌ Error inesperado: " + error.message);
+    }
+  }
+
+  document.getElementById("startBtn").addEventListener("click", () => {
+    document.getElementById("log").innerHTML = "";
+    procesarOrden();
   });
-}
-
-// Función principal (cadena de promesas)
-function procesarOrden() {
-  mostrarMensaje("Orden recibida - Iniciando proceso de preparación...");
-
-  prepararPlatillo("Bebida 🥤", 2000)
-    .then(() => prepararPlatillo("Pizza 🍕", 3000))
-    .then(() => prepararPlatillo("Postre 🧁", 4000))
-    .then(() => mostrarMensaje("🎉 ¡La orden completa ha sido entregada!"))
-    .catch((error) => mostrarMensaje("❌ Error en la preparación: " + error));
-}
-
-// Botón para iniciar
-document.getElementById("startBtn").addEventListener("click", () => {
-  document.getElementById("log").innerHTML = ""; // limpiar logs
-  procesarOrden();
-});
