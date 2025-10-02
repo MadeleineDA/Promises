@@ -1,14 +1,18 @@
+ const isBrowser = typeof window !== "undefined" && typeof document !== "undefined";
+ 
  //funcion para mostrar mensajes en el log.gi
  function mostrarMensaje(mensaje) {
+  if (isBrowser) {
     const log = document.getElementById("log");
     const li = document.createElement("li");
     li.textContent = mensaje;
     log.appendChild(li);
-    console.log(mensaje);
     log.scrollTop = log.scrollHeight;
   }
-
+  console.log(mensaje);
+}
   
+  // Función para esperar un tiempo determinado (simula el tiempo de preparación).
   function esperar(milisegundo) {
     return new Promise(resolve => setTimeout(resolve, milisegundo));
   }
@@ -50,8 +54,18 @@
       mostrarMensaje( error.message);
     }
   }
-// Evento para iniciar el proceso al hacer clic en el botón.
+
+  if (isBrowser) {
   document.getElementById("startBtn").addEventListener("click", () => {
     document.getElementById("log").innerHTML = "";
     procesarOrden();
   });
+
+  } else {
+    
+    (async () => {
+      await procesarOrden();
+    }) ();
+
+    
+  }
